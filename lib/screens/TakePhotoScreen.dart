@@ -7,7 +7,8 @@ import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:random_string/random_string.dart';
 
 // A screen that takes in a list of cameras and the Directory to store images.
 class TakePhotoScreen extends StatefulWidget {
@@ -79,14 +80,17 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
           try {
             // Ensure that the camera is initialized.
             await _initializeControllerFuture;
-
+            String imageName;
+            imageName = "${DateTime.now()}_${randomAlphaNumeric(10)}.png";
             // Construct the path where the image should be saved using the
             // pattern package.
             final path = join(
               // Store the picture in the temp directory.
               // Find the temp directory using the `path_provider` plugin.
+
+
               (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
+              imageName,
             );
 
             // Attempt to take a picture and log where it's been saved.
@@ -96,7 +100,7 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path, image: File(path)),
+                builder: (context) => DisplayPictureScreen(imagePath: path, image: File(path), imageName: imageName),
               ),
             );// */
           } catch (e) {
@@ -112,8 +116,9 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
 class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
   final File image;
+  final String imageName;
 
-  const DisplayPictureScreen({Key key, this.imagePath, this.image}) : super(key: key);
+  const DisplayPictureScreen({Key key, this.imagePath, this.image, this.imageName}) : super(key: key);
 
   @override
   DisplayPictureScreenState createState() => DisplayPictureScreenState();
@@ -122,12 +127,28 @@ class DisplayPictureScreen extends StatefulWidget {
 // A widget that displays the picture taken by the user.
 class DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
+  final databaseReference = Firestore.instance;
 
   Future uploadPic() async {
+    String user_id;
+
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.getBool("signed_in")) {
+      user_id = prefs.getString("signed_in_id");
+    }
+    else {
+      user_id = "not_signed_in";
+    }
     String fileName = basename(widget.imagePath);
     StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(widget.image);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+
+
+    databaseReference.collection("photos").document(widget.imageName).setData({
+      'user_id' : user_id,
+      'image_name' : widget.imageName,
+    });
   }
 
 
