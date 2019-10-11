@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1076331953626",
+    "firebase_url": "https://zkazkaz.firebaseio.com",
+    "project_id": "zkazkaz",
+    "storage_bucket": "zkazkaz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076331953626:android:a6178c94155a16bbb114e3",
+        "android_client_info": {
+          "package_name": "org.dreamers.zkazkaz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076331953626-o2h1s7f4olpei9qfnj9ao5rq2c74go5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9CzEKA_0mA-f_cMhXpJUQbITop_xXy4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076331953626-o2h1s7f4olpei9qfnj9ao5rq2c74go5r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1076331953626-hvm3jreqimje7t2hp5ph0c4vfeuqh05d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.dreamers.zkazkaz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
