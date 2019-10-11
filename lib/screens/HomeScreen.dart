@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
+import 'package:camera/camera.dart';
+import 'TakePhotoScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,6 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String userId;
 
   @override
   void initState() {
@@ -29,6 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final prefs = await SharedPreferences.getInstance();
 
     bool signedIn = prefs.getBool("signed_in") ?? false;
+    if(signedIn) {
+      setState(() {
+        this.userId = prefs.getString("signed_in_id");
+      });
+    }
     return signedIn;
   }
 
@@ -38,6 +44,16 @@ class _HomeScreenState extends State<HomeScreen> {
     prefs.remove("signed_in_id");
   }
 
+  prepareCamera() async {
+    // Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+
+    // Get a specific camera from the list of available cameras.
+    final firstCamera = cameras.first;
+
+    return firstCamera;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if(signedIn) {
         return Column(children: <Widget>[
           Container(
-            child: Text("Jste přihlášený jako"),
+            child: Text("ID uživatele: " + this.userId),
           ),
           Container(
             child:
@@ -91,9 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
             //settings button
           ),
           Container(
-            //big add new thing button
-          ),
-          Container(
             //big tutorial button
           ),
           FutureBuilder(
@@ -101,6 +114,21 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (BuildContext context, snapshot) {
                 return snapshot.hasData ? signButton(snapshot.data) : Center(child: CircularProgressIndicator());
               }
+          ),
+          Container(
+            //big add new thing button
+            child: RaisedButton(
+              onPressed: () {
+                prepareCamera().then((value) {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TakePhotoScreen(camera: value)));
+                });
+                Navigator.pushReplacementNamed(context, '/take-photo');
+              },
+              child: const Text(
+                  'Vyfotit',
+                  style: TextStyle(fontSize: 20)
+              ),
+            ),
           ),
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'screens/WelcomeScreen.dart';
 import 'screens/HomeScreen.dart';
 import 'screens/SignInScreen.dart';
+import 'screens/TakePhotoScreen.dart';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
         '/welcome': (BuildContext context) => WelcomeScreen(),
 
         '/sign-in': (BuildContext context) => SignInScreen(),
+
+        '/take-photo': (BuildContext context) => TakePhotoScreen(),
       },
     );
   }

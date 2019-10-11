@@ -64,7 +64,12 @@ class _SignInScreenState extends State<SignInScreen> {
           Container(
             child: RaisedButton(
               onPressed: () {
-                signIn(signInController.text);
+                if(signInController.text.length > 0) {
+                  signIn(signInController.text);
+                  Navigator.pushReplacementNamed(context, '/');
+                }
+
+
               },
               child: const Text(
                   'Přihlásit se',

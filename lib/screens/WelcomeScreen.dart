@@ -31,6 +31,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return signedIn;
   }
 
+  signOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("signed_in", false);
+    prefs.remove("signed_in_id");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child:
               RaisedButton(
                   onPressed: () {
-                Navigator.pushReplacementNamed(context, '/sign-in');
+                    signOut();
+                Navigator.pushReplacementNamed(context, '/welcome');
               },
               child: const Text(
                 'Odhlásit se',
