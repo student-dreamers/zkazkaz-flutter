@@ -81,7 +81,8 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
             // Ensure that the camera is initialized.
             await _initializeControllerFuture;
             String imageName;
-            imageName = "${DateTime.now()}_${randomAlphaNumeric(10)}.png";
+            String dateTime = DateTime.now().toString();
+            imageName = "${dateTime}_${randomAlphaNumeric(10)}.png";
             // Construct the path where the image should be saved using the
             // pattern package.
             final path = join(
@@ -100,7 +101,7 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path, image: File(path), imageName: imageName),
+                builder: (context) => DisplayPictureScreen(imagePath: path, image: File(path), imageName: imageName, dateTime: dateTime),
               ),
             );// */
           } catch (e) {
@@ -117,8 +118,9 @@ class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
   final File image;
   final String imageName;
+  final String dateTime;
 
-  const DisplayPictureScreen({Key key, this.imagePath, this.image, this.imageName}) : super(key: key);
+  const DisplayPictureScreen({Key key, this.imagePath, this.image, this.imageName, this.dateTime}) : super(key: key);
 
   @override
   DisplayPictureScreenState createState() => DisplayPictureScreenState();
@@ -148,6 +150,7 @@ class DisplayPictureScreenState extends State<DisplayPictureScreen> {
     databaseReference.collection("photos").document(widget.imageName).setData({
       'user_id' : user_id,
       'image_name' : widget.imageName,
+      'date_time' : widget.dateTime,
     });
   }
 
