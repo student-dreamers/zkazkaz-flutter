@@ -32,11 +32,51 @@ class _HomeScreenState extends State<HomeScreen> {
     return signedIn;
   }
 
-
+  signOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("signed_in", false);
+    prefs.remove("signed_in_id");
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    Widget signButton(bool signedIn) {
+      if(signedIn) {
+        return Column(children: <Widget>[
+          Container(
+            child: Text("Jste přihlášený jako"),
+          ),
+          Container(
+            child:
+            RaisedButton(
+              onPressed: () {
+                signOut();
+                Navigator.pushReplacementNamed(context, '/');
+              },
+              child: const Text(
+                  'Odhlásit se',
+                  style: TextStyle(fontSize: 20)
+              ),
+            ),
+          ),
+        ],);
+      }
+      else {
+        return Container(
+          child:
+          RaisedButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/sign-in');
+            },
+            child: const Text(
+                'Přihlásit se',
+                style: TextStyle(fontSize: 20)
+            ),
+          ),
+        );
+      }
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Zkazkaz'),
@@ -55,6 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Container(
             //big tutorial button
+          ),
+          FutureBuilder(
+              future: checkIfSignedIn(),
+              builder: (BuildContext context, snapshot) {
+                return snapshot.hasData ? signButton(snapshot.data) : Center(child: CircularProgressIndicator());
+              }
           ),
         ],
       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -10,6 +9,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final signInController = TextEditingController();
+  final databaseReference = Firestore.instance;
 
   @override
   void dispose() {
@@ -36,6 +36,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
     prefs.setBool("signed_in", true);
     prefs.setString("signed_in_id", signedInId);
+    databaseReference.collection("users").document(signedInId).setData({
+      'user_id' : signedInId,
+      'last_signed_in' : DateTime.now().toString(),
+    });
 
   }
 
