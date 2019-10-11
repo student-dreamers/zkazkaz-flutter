@@ -6,8 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-
-import 'firebase_sto'
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 // A screen that takes in a list of cameras and the Directory to store images.
@@ -97,7 +96,7 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path),
+                builder: (context) => DisplayPictureScreen(imagePath: path, image: File(path)),
               ),
             );// */
           } catch (e) {
@@ -110,24 +109,28 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
   }
 }
 
-// A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
-  final FirebaseApp app = await FirebaseApp.configure(
-  name: 'test',
-  options: FirebaseOptions(
-  googleAppID: Platform.isIOS
-  ? '1:159623150305:ios:4a213ef3dbd8997b'
-      : '1:159623150305:android:ef48439a0cc0263d',
-  gcmSenderID: '159623150305',
-  apiKey: 'AIzaSyChk3KEG7QYrs4kQPLP1tjJNxBTbfCAdgg',
-  projectID: 'flutter-firebase-plugins',
-  ),
-  );
-  final FirebaseStorage storage = FirebaseStorage(
-      app: app, storageBucket: 'gs://flutter-firebase-plugins.appspot.com');
+  final File image;
 
-  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
+  const DisplayPictureScreen({Key key, this.imagePath, this.image}) : super(key: key);
+
+  @override
+  DisplayPictureScreenState createState() => DisplayPictureScreenState();
+}
+
+// A widget that displays the picture taken by the user.
+class DisplayPictureScreenState extends State<DisplayPictureScreen> {
+
+
+  Future uploadPic() async {
+    String fileName = basename(widget.imagePath);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(widget.image);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +138,18 @@ class DisplayPictureScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      body: Column(children: <Widget>[Image.file(File(widget.imagePath)),
+        RaisedButton(
+          onPressed: () {
+            uploadPic();
+
+          },
+          child: const Text(
+              'Nahrát fotku',
+              style: TextStyle(fontSize: 20)
+          ),
+        ),
+      ],),
     );
   }
 }
