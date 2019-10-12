@@ -39,8 +39,8 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
       widget.camera,
       // Define the resolution to use.
       ResolutionPreset.medium,
-    );
 
+    );
     // Next, initialize the controller. This returns a Future.
     _initializeControllerFuture = _controller.initialize();
   }
@@ -71,7 +71,11 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Container(
+    height: 100.0,
+    width: 100.0,
+    child: FittedBox(
+    child: FloatingActionButton(
         child: Icon(Icons.camera_alt),
         // Provide an onPressed callback.
         onPressed: () async {
@@ -109,7 +113,7 @@ class TakePhotoScreenState extends State<TakePhotoScreen> {
             print(e);
           }
         },
-      ),
+      ),)),
     );
   }
 }
@@ -152,6 +156,7 @@ class DisplayPictureScreenState extends State<DisplayPictureScreen> {
       'image_name' : widget.imageName,
       'date_time' : widget.dateTime,
     });
+    return true;
   }
 
 
@@ -166,7 +171,7 @@ class DisplayPictureScreenState extends State<DisplayPictureScreen> {
         RaisedButton(
           onPressed: () {
             uploadPic().then((value) {
-              Navigator.pushReplacementNamed(context, 'add-picture');
+              Navigator.pushReplacementNamed(context, '/between');
             });
 
           },
@@ -176,6 +181,30 @@ class DisplayPictureScreenState extends State<DisplayPictureScreen> {
           ),
         ),
       ],),
+    );
+  }
+}
+class BetweenScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Calculating')),
+        body: GestureDetector(onTap: () {
+          Navigator.pushReplacementNamed(context, '/result');
+        },
+            child: Center(child: CircularProgressIndicator())),
+    );
+  }
+}
+
+class ResultScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Result')),
+      body: Column(children: <Widget>[
+        //Success
+      ],)
     );
   }
 }

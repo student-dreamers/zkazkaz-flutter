@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
         '/sign-in': (BuildContext context) => SignInScreen(),
 
         '/take-photo': (BuildContext context) => TakePhotoScreen(),
+
+        '/between' : (BuildContext context) => BetweenScreen(),
+
+        '/'
       },
     );
   }
