@@ -141,6 +141,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          Container(
+            child: RaisedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/between');
+                })
+          )
         ],
       ),
     );

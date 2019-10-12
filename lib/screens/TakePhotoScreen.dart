@@ -203,7 +203,16 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Result')),
       body: Column(children: <Widget>[
-        //Success
+        Center(
+            child: Container(
+              margin: EdgeInsets.only(top: 200),
+              child: Icon (IconData(0xe92d, fontFamily: 'MaterialIcons'), color: Colors.green, size: 200),
+      )
+    ), Center (
+          child: Container(
+            child: Text("Vše v pořádku", style: TextStyle(fontSize: 20),),
+          )
+        )
       ],)
     );
   }
