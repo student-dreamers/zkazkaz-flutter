@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 
         '/between' : (BuildContext context) => BetweenScreen(),
 
-        '/'
+        '/result' : (BuildContext context) => ResultScreen(),
       },
     );
   }
