@@ -61,11 +61,15 @@ class _HomeScreenState extends State<HomeScreen> {
       if(signedIn) {
         return Column(children: <Widget>[
           Container(
-            child: Text("ID uživatele: " + this.userId),
+            margin: const EdgeInsets.only(bottom: 100.0),
+            child: Text("ID uživatele: " + this.userId, style: TextStyle(fontSize: 20),),
           ),
           Container(
-            child:
-            RaisedButton(
+            height: 60,
+            margin: const EdgeInsets.all(10.0),
+            child: RaisedButton(
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
               onPressed: () {
                 signOut();
                 Navigator.pushReplacementNamed(context, '/');
@@ -80,8 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
       }
       else {
         return Container(
-          child:
-          RaisedButton(
+          height: 60,
+          margin: const EdgeInsets.only(top: 100.0, bottom: 10.0),
+          child: RaisedButton(
+            color: Theme.of(context).primaryColor,
+            textColor: Colors.white,
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/sign-in');
             },
@@ -101,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: <Widget>[
           Container(
-            child: Text("Vitejte..."),
+            margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
+            child: Text("Vítejte", style: TextStyle(fontSize: 40)),
           ),
           Container(
             //settings button
@@ -116,8 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
               }
           ),
           Container(
-            //big add new thing button
+            height: 60,
+            margin: const EdgeInsets.all(10.0),
             child: RaisedButton(
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
               onPressed: () {
                 prepareCamera().then((value) {
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TakePhotoScreen(camera: value)));

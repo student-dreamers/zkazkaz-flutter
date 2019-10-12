@@ -47,13 +47,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: Text("Jste přihlášený jako"),
           ),
           Container(
-            child:
-              RaisedButton(
+            height: 80,
+            child: RaisedButton(
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
                   onPressed: () {
                     signOut();
                 Navigator.pushReplacementNamed(context, '/welcome');
               },
-              child: const Text(
+                  child: const Text(
                 'Odhlásit se',
                 style: TextStyle(fontSize: 20)
               ),
@@ -63,8 +65,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       }
       else {
         return Container(
-          child:
-          RaisedButton(
+          margin: const EdgeInsets.all(20.0),
+          height: 80,
+          child: RaisedButton(
+            color: Theme.of(context).primaryColor,
+            textColor: Colors.white,
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/sign-in');
             },

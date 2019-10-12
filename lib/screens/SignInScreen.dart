@@ -53,16 +53,21 @@ class _SignInScreenState extends State<SignInScreen> {
       body: Column(
         children: <Widget>[
           Container(
+            margin: const EdgeInsets.only(top: 150.0, bottom: 20.0, right: 20.0, left: 20.0),
+            height: 80,
             child: TextField(
               decoration: InputDecoration(
-                  border: InputBorder.none,
+
                   hintText: 'Zadejte své ID'
               ),
               controller: signInController,
             ),
           ),
           Container(
+            height: 60,
             child: RaisedButton(
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
               onPressed: () {
                 if(signInController.text.length > 0) {
                   signIn(signInController.text);
