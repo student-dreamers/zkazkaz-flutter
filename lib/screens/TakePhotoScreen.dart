@@ -165,7 +165,9 @@ class DisplayPictureScreenState extends State<DisplayPictureScreen> {
       body: Column(children: <Widget>[Image.file(File(widget.imagePath)),
         RaisedButton(
           onPressed: () {
-            uploadPic();
+            uploadPic().then((value) {
+              Navigator.pushReplacementNamed(context, 'add-picture');
+            });
 
           },
           child: const Text(
