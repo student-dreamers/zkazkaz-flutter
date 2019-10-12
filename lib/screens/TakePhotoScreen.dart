@@ -206,7 +206,10 @@ class ResultScreen extends StatelessWidget {
         Center(
             child: Container(
               margin: EdgeInsets.only(top: 200),
-              child: Icon (IconData(0xe92d, fontFamily: 'MaterialIcons'), color: Colors.green, size: 200),
+              child: GestureDetector(onTap: () {
+                Navigator.pushReplacementNamed(context, '/');
+              },
+                  child: Icon(IconData(0xe92d, fontFamily: 'MaterialIcons'), color: Colors.green, size: 200),),
       )
     ), Center (
           child: Container(
